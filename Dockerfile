@@ -35,4 +35,4 @@ RUN pip install -r requirements.txt
 COPY ./app ./app
 
 # Set the handler
-CMD ["app.lambda_handler"]
+CMD ["app.main.lambda_handler"]
