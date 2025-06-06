@@ -21,15 +21,18 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 # ===== Stage 2: Lambda-compatible image =====
 FROM public.ecr.aws/lambda/python:3.11 AS lambda
 
-# Set working directory for Lambda
-WORKDIR /var/task
+# Install build tools
+RUN yum install -y gcc python3-devel
 
-# Copy from dev stage
-COPY --from=dev /app /var/task
+# Optional: upgrade pip to get better wheel support
+RUN pip install --upgrade pip setuptools wheel
+
+# Install Python dependencies
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install deps again in Lambda env
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy application code
+COPY ./app ./app
 
-# Lambda entrypoint (FastAPI adapter)
-CMD ["app.main.handler"]
+# Set the handler
+CMD ["app.lambda_handler"]
