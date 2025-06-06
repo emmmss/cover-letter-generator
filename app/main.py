@@ -1,34 +1,23 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
+from .utils import extract_text
 from dotenv import load_dotenv
+from mangum import Mangum
 import uvicorn
 import boto3
 import json
 import fitz  # PyMuPDF
-import docx
 import os
 
 load_dotenv()
 
 app = FastAPI()
 
+# Lambda entrypoint
+handler = Mangum(app)
+
 # Use your preferred region where Bedrock is enabled
 bedrock = boto3.client("bedrock-runtime", region_name="eu-north-1")
-
-# Helper: Extract text from uploaded file
-def extract_text(file: UploadFile):
-    if file.filename.endswith(".txt"):
-        return file.file.read().decode("utf-8")
-    elif file.filename.endswith(".pdf"):
-        import PyPDF2
-        reader = PyPDF2.PdfReader(file.file)
-        return " ".join(page.extract_text() for page in reader.pages if page.extract_text())
-    elif file.filename.endswith(".docx"):
-        import docx
-        doc = docx.Document(file.file)
-        return "\n".join([p.text for p in doc.paragraphs])
-    else:
-        raise ValueError("Unsupported file type")
 
 @app.post("/generate")
 async def generate_cover_letter(
@@ -78,5 +67,9 @@ Now generate a tailored, professional cover letter for this job.
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
+# Local dev entrypoint
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
