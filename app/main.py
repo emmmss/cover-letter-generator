@@ -14,7 +14,7 @@ load_dotenv()
 app = FastAPI()
 
 # Lambda entrypoint
-handler = Mangum(app)
+lambda_handler = Mangum(app)
 
 # Use your preferred region where Bedrock is enabled
 bedrock = boto3.client("bedrock-runtime", region_name="eu-north-1")
@@ -71,5 +71,3 @@ Now generate a tailored, professional cover letter for this job.
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
