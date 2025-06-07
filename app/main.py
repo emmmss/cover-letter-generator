@@ -1,23 +1,16 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
-from .utils import extract_text
+from app.utils import extract_text
+from app.prompt_builder import build_prompt
+from app.bedrock_client import generate_from_bedrock
 from dotenv import load_dotenv
 from mangum import Mangum
-import uvicorn
-import boto3
-import json
-import fitz  # PyMuPDF
 import os
 
 load_dotenv()
 
 app = FastAPI()
-
-# Lambda entrypoint
 lambda_handler = Mangum(app)
-
-# Use your preferred region where Bedrock is enabled
-bedrock = boto3.client("bedrock-runtime", region_name="eu-north-1")
 
 @app.post("/generate")
 async def generate_cover_letter(
@@ -28,41 +21,8 @@ async def generate_cover_letter(
     try:
         cv_text = extract_text(cv)
         past_letter_text = extract_text(past_letter) if past_letter else ""
-
-        prompt = f"""
-You're a cover letter generator AI.
-
-Here's the job description:
-{job_description}
-
-Here is the candidate's CV:
-{cv_text}
-
-Here is a past cover letter (if any):
-{past_letter_text}
-
-Now generate a tailored, professional cover letter for this job.
-"""
-
-        response = bedrock.converse(
-            modelId="eu.anthropic.claude-3-7-sonnet-20250219-v1:0",  # or the correct Claude 3 model ID
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "text": prompt
-                        }
-                    ]
-                }
-            ],
-            inferenceConfig={
-                "maxTokens": 1000,
-                "temperature": 0.7,
-            }
-        )
-
-        generated = response["output"]["message"]["content"]
+        prompt = build_prompt(cv_text, job_description, past_letter_text)
+        generated = generate_from_bedrock(prompt)
         return JSONResponse(content={"cover_letter": generated})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
