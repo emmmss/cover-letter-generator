@@ -17,22 +17,10 @@ def get_index():
 
 index = get_index()
 
-def store_cover_letter(user_id: str, text: str, metadata: dict = None):
-    vector_id = str(uuid.uuid4())
+#TODO: Implement the following functions
+def upsert_document():
+    pass
 
-    index.upsert(
-        vectors=[
-            {
-                "id": vector_id,
-                "values": text,  # raw text, Pinecone will embed it
-                "metadata": {
-                    "category": "cover_letter",
-                    **(metadata or {})
-                }
-            }
-        ],
-        namespace=user_id
-    )
-
-    return vector_id
+def query_similar_documents():
+    pass
 
