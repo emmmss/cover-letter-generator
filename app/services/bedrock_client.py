@@ -1,5 +1,6 @@
 import boto3
 import os
+import json
 
 region = os.getenv("BEDROCK_REGION", "eu-north-1")
 model_id = os.getenv("BEDROCK_MODEL_ID", "eu.anthropic.claude-3-7-sonnet-20250219-v1:0")
@@ -25,3 +26,19 @@ def generate_from_bedrock(prompt: str) -> str:
         }
     )
     return response["output"]["message"]["content"]
+
+# get embedding for a given text using Amazon Titan Embed Text model
+def get_embedding(text: str):
+    body = {
+        "inputText": text
+    }
+
+    response = bedrock.invoke_model(
+        body=json.dumps(body),
+        modelId="amazon.titan-embed-text-v1",
+        accept="application/json",
+        contentType="application/json"
+    )
+
+    embedding = json.loads(response["body"].read())["embedding"]
+    return embedding
