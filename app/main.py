@@ -14,19 +14,16 @@ lambda_handler = Mangum(app)
 
 @app.post("/generate")
 async def generate_cover_letter(
-    cv: UploadFile = File(...),
+    cv_text: str = Form(...),
     job_description: str = Form(...),
-    past_letter: UploadFile = File(None)
+    past_letter_text: str = Form("")
 ):
     try:
-        cv_text = extract_text(cv)
-        past_letter_text = extract_text(past_letter) if past_letter else ""
         prompt = build_prompt(cv_text, job_description, past_letter_text)
         generated = generate_from_bedrock(prompt)
         return JSONResponse(content={"cover_letter": generated})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
-
 # Local dev entrypoint
 if __name__ == "__main__":
     import uvicorn
