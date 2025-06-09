@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse
 from app.utils import extract_text
 from app.services.prompt_builder import build_prompt
 from app.services.bedrock_client import generate_from_bedrock
-from app.services.s3_handler import save_text_to_s3
+from app.services.s3_handler import save_text_to_s3, get_text_from_s3
+from app.services.pinecone_handler import get_similar_cover_letter_ids, store_cover_letter_to_pinecone
 
 router = APIRouter()
 
@@ -15,18 +16,32 @@ async def generate_cover_letter(
         past_letter_text: str = Form("")
 ):
     try:
-        # upload cover letter text to S3 if provided
+        # Step 1: Query Pinecone for similar cover letters
+        similar_ids = get_similar_cover_letter_ids(query=job_description, user_id=user_id, top_k=3)
+
+        # Step 2: Fetch full content from S3
+        example_texts = []
+        for doc_id in similar_ids:
+            s3_key = f"{user_id}/cover_letter/{doc_id}.txt"
+            text = get_text_from_s3(s3_key)
+            if text:
+                example_texts.append(text)
+
+        # Step 3: Save submitted cover letter (if any)
         if past_letter_text.strip():
             result = save_text_to_s3(past_letter_text, category="cover_letter", user_id=user_id)
             if "key" in result:
-                past_letter_text = result["key"]
+                doc_id = result["key"]
                 # upload the text to pinecone
-
+                store_cover_letter_to_pinecone(past_letter_text, user_id, doc_id)
             if "error" in result:
                 return JSONResponse(content={"error": result["error"]}, status_code=400)
+
+        # Step 4: Build prompt
         cv_text = extract_text(cv)
-        # build the prompt for the AI model and generate the cover letter
         prompt = build_prompt(cv_text, job_description, past_letter_text)
+
+        # Step 5: Generate cover letter
         generated = generate_from_bedrock(prompt)
         return JSONResponse(content={"cover_letter": generated})
     except Exception as e:

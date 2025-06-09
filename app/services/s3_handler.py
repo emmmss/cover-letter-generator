@@ -43,3 +43,12 @@ def save_file_to_s3(file: UploadFile, user_id: str, category: str = "cover_lette
         return {"error": f"S3 ClientError: {e.response['Error']['Message']}"}
     except Exception as e:
         return {"error": f"Unexpected error: {str(e)}"}
+
+def get_text_from_s3(doc_id: str):
+    try:
+        response = s3.get_object(Bucket=S3_BUCKET, Key=doc_id)
+        return response["Body"].read().decode("utf-8")
+    except s3.exceptions.NoSuchKey:
+        return None
+
+doc_id = "emmi/cover_letter/ab44a32722314e6297beb9ee27e68657.txt"
