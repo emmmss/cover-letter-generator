@@ -3,8 +3,9 @@ from fastapi.responses import JSONResponse
 from app.utils import extract_text
 from app.services.prompt_builder import build_prompt
 from app.services.bedrock_client import generate_from_bedrock
-from app.services.s3_handler import save_text_to_s3, get_text_from_s3
-from app.services.pinecone_handler import get_similar_cover_letter_ids, store_cover_letter_to_pinecone
+from app.services.s3_handler import get_text_from_s3
+from app.services.pinecone_handler import get_similar_cover_letter_ids
+from app.services.document_store import save_and_index_text
 
 router = APIRouter()
 
@@ -29,11 +30,7 @@ async def generate_cover_letter(
 
         # Step 3: Save submitted cover letter (if any)
         if past_letter_text.strip():
-            result = save_text_to_s3(past_letter_text, category="cover_letter", user_id=user_id)
-            if "key" in result:
-                doc_id = result["key"]
-                # upload the text to pinecone
-                store_cover_letter_to_pinecone(past_letter_text, user_id, doc_id)
+            result = save_and_index_text(past_letter_text, user_id, category="cover_letter")
             if "error" in result:
                 return JSONResponse(content={"error": result["error"]}, status_code=400)
 

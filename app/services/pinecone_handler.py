@@ -15,14 +15,14 @@ def get_index():
 
 index = get_index()
 
-def upsert_record(text: str, record_id: str, namespace: str, metadata: dict = None):
+def upsert_text(text: str, record_id: str, user_id: str, metadata: dict = None):
     """
     Upserts a text record into Pinecone using automatic embedding.
 
     Args:
         text (str): The text to embed and store.
+        record_id (str): The unique ID for the record.
         user_id (str): Namespace (user-specific).
-        category (str): Type of data (e.g., cover_letter).
         metadata (dict, optional): Any additional metadata.
 
     Returns:
@@ -40,32 +40,10 @@ def upsert_record(text: str, record_id: str, namespace: str, metadata: dict = No
         record.update(metadata)
 
     index.upsert_records(
-        namespace=namespace,
+        namespace=user_id,
         records=[record]
     )
 
-def store_cover_letter_to_pinecone(past_letter_text: str, record_id: str, user_id: str
-):
-    """
-    Stores a cover letter in Pinecone under the 'cover_letter' category.
-
-    Args:
-        text (str): The cover letter text.
-        record_id (str): The unique ID for the record (should match S3 key).
-        user_id (str): The namespace (usually the user ID).
-        extra_metadata (dict, optional): Any additional metadata to attach.
-
-    Returns:
-        dict: Upsert response from Pinecone.
-    """
-    metadata = {"category": "cover_letter"}
-
-    return upsert_record(
-        text=past_letter_text,
-        record_id=record_id,
-        namespace=user_id,
-        metadata=metadata
-    )
 def get_similar_cover_letter_ids(query: str, user_id: str, top_k: int = 3) -> list[str]:
     matches = index.search(
         namespace=user_id,

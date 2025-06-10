@@ -1,7 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, Form, Request
 from fastapi.responses import JSONResponse
-from app.services.s3_handler import save_text_to_s3
-from app.services.pinecone_handler import store_cover_letter_to_pinecone
+from app.services.document_store import save_and_index_text
 router = APIRouter()
 
 @router.post("/upload-cover-letter")
@@ -10,13 +9,9 @@ async def upload_cover_letter(
     past_letter_text: str = Form(...)
 ):
     try:
-        result = save_text_to_s3(past_letter_text, category="cover_letter", user_id=user_id)
-        if "key" in result:
-            doc_id = result["key"]
-            # upload the text to pinecone
-            store_cover_letter_to_pinecone(past_letter_text, user_id, doc_id)
+        result = save_and_index_text(past_letter_text, user_id, category="cover_letter")
         if "error" in result:
             return JSONResponse(content={"error": result["error"]}, status_code=400)
-        return JSONResponse(content={"success": True, "key": result["key"]})
+        return JSONResponse(content={"success": True, "doc_id": result["doc_id"]})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
