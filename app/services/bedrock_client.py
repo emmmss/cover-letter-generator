@@ -25,7 +25,7 @@ def generate_from_bedrock(prompt: str) -> str:
             "temperature": 0.7,
         }
     )
-    return response["output"]["message"]["content"]
+    return response["output"]["message"]["content"][0]["text"]
 
 # get embedding for a given text using Amazon Titan Embed Text model
 def get_embedding(text: str):

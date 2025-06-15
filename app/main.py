@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from mangum import Mangum
-from app.routes import generate, upload
+from app.routes import generate, upload, refine
 
 load_dotenv()
 app = FastAPI()
@@ -9,7 +9,7 @@ app = FastAPI()
 # Register routes
 app.include_router(generate.router)
 app.include_router(upload.router)
-
+app.include_router(refine.router)
 # Lambda entrypoint
 lambda_handler = Mangum(app)
 
