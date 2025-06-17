@@ -2,10 +2,8 @@ import boto3
 import os
 import json
 
-region = os.getenv("AWS_DEFAULT_REGION", "eu-central-1")
-#model_id = os.getenv("BEDROCK_MODEL_ID", "eu.anthropic.claude-3-7-sonnet-20250219-v1:0")
-# Default model for generation
-DEFAULT_GENERATION_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "anthropic.claude-3-5-sonnet-20240620-v1:0") # Updated default to 3.5 Sonnet
+region = os.getenv("AWS_DEFAULT_REGION", "eu-north-1")
+DEFAULT_GENERATION_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "eu.anthropic.claude-3-7-sonnet-20250219-v1:0")
 
 bedrock = boto3.client("bedrock-runtime", region_name=region)
 
