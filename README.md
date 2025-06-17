@@ -28,6 +28,7 @@ Built with **FastAPI**, deployed on **AWS Lambda**, with vector search via **Pin
 | Vector Search    | Pinecone (with llama-text-embed-v2 Embeddings)  |
 | Serverless Infra | AWS Lambda + API Gateway             |
 | User Auth (TODO) | AWS Cognito                          |
+| Prompt Evaluation | promptfoo                              |
 
 ---
 ## 🧪 Prompt Evaluation with promptfoo
