@@ -41,7 +41,6 @@ This project uses [promptfoo](https://github.com/promptfoo/promptfoo) to evaluat
 - **How to Run:**
   1. Install promptfoo: `npm install -g promptfoo`
   2. Run: `promptfoo eval` (ensure AWS credentials are set in your environment)
-  3. Results and errors are logged in `promptfoo-errors.log`.
 
 See `promptfooconfig.yaml` for details and to add more test cases or prompt variations.
 
