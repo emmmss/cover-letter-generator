@@ -1,0 +1,36 @@
+description: 'Cover Letter Generation Evaluation'
+
+env:
+  AWS_DEFAULT_REGION: AWS_REGION
+  AWS_ACCESS_KEY_ID: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: AWS_SECRET_ACCESS_KEY
+
+prompts:
+  - file://app/services/prompt_builder.py:build_prompt
+  # If you want to test variations, you could add more here, e.g.,
+  # - file://../app/services/prompt_builder.py:build_prompt_with_examples # if you had one
+
+providers:
+  - id: bedrock:anthropic.claude-3-5-sonnet-20240620-v1:0
+
+tests:
+  - vars:
+      cv_text: file://test_data/cvs/cv1.txt
+      job_description: file://test_data/job_descriptions/jd1.txt
+      past_letter_text: file://test_data/past_letters/past_letter1.txt # Example with a past letter
+      example_texts: file://test_data/example_texts/example_text1.txt # Example with an example text
+  - vars:
+      cv_text: file://test_data/cvs/cv2.txt
+      job_description: file://test_data/job_descriptions/jd2.txt
+      past_letter_text: " "
+      example_texts: " "
+  # Ideally there would be 100 test cases, but to start I'll just add a couple.
+
+defaultTest:
+  assert:
+    # This points to your custom model-graded evaluation script
+    - type: python
+      value: file://evals/custom_llm_eval_cover_letter.py
+      # You can optionally pass arguments to your get_assert function here if needed
+      # args:
+      #   threshold: 4.0 # If you want to override the default threshold

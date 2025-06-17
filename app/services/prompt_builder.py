@@ -1,19 +1,26 @@
-def build_prompt(cv_text: str, job_description: str, past_letter_text: str = "", example_texts: str = "") -> str:
+def build_prompt(context):
+    vars = context["vars"]
+    cv_text = vars.get("cv_text", "")
+    job_description = vars.get("job_description", "")
+    past_letter_text = vars.get("past_letter_text", "")
+    example_texts = vars.get("example_texts", "")
+
+    # Build and return your final prompt string
     return f"""
-You're a cover letter generator AI.
+    You're a cover letter generator AI.
 
-Here's the job description:
-{job_description}
+    Here's the job description:
+    {job_description}
 
-Here is the candidate's CV:
-{cv_text}
+    Here is the candidate's CV:
+    {cv_text}
 
-Here are a past cover letters (if any):
-{past_letter_text}
-{example_texts}
+    Here are a past cover letters (if any):
+    {past_letter_text}
+    {example_texts}
 
-Now generate a tailored, professional cover letter for this job.
-"""
+    Now generate a tailored, professional cover letter for this job.
+    """
 
 def build_refinement_prompt(job_description: str, original_letter: str, feedback: str) -> str:
     return f"""

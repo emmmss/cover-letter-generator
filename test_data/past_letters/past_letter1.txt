@@ -1,0 +1,8 @@
+Dear Hiring Manager,
+I’m excited to apply for the Senior Data Engineer / Data Engineer position at Finnair. With a strong foundation in data science, product leadership, and a growing skill set in data engineering, I’m motivated by the opportunity to enable data-led business and operational decision-making across the organization.
+At Wolt, I led a cross-functional team in launching a new consumer-facing product across 26 countries. I was responsible for the product requirements, product roadmap, stakeholder communication, success metrics, and data-informed decision-making using Looker and Snowflake. This experience deepened my skills in collaborating across teams to translate complex data into impactful solutions.
+Previously at Lumoa, I helped build an intelligent customer experience analytics platform, developing machine learning and natural language processing solutions in Python. I kept user needs in mind to ensure the platform delivered actionable insights for business users. As part of an agile development team, I contributed to solving key challenges and helped train new team members, strengthening both our product and internal capabilities.
+Over the past months, I’ve been expanding my expertise into data engineering. I’ve been learning to build data pipelines using AWS tools like Glue and Lambda, and learned to perform data transformations with DBT. I’m excited about applying these skills in a role where I can keep learning, support others, and help build reliable, efficient data infrastructure that supports strategic decision-making across the organization.
+Thank you for your time and consideration. I’d welcome the chance to further discuss how my experience and learning journey align with Finnair’s needs.
+Sincerely,
+Emmi Kotilainen

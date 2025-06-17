@@ -14,7 +14,13 @@ def test_generate_cover_letter_success(monkeypatch):
     monkeypatch.setattr(app.routes.generate, "get_text_from_s3", lambda key: "Example cover letter text")
     monkeypatch.setattr(app.routes.generate, "save_and_index_text", lambda text, user_id, category: {"success": True, "doc_id": "mock_doc_id"})
     monkeypatch.setattr(app.routes.generate, "extract_text", lambda file: "Extracted CV text")
-    monkeypatch.setattr(app.routes.generate, "build_prompt", lambda cv_text, job_description, past_letter_text: "Prompt text")
+
+    monkeypatch.setattr(
+        app.routes.generate,
+        "build_prompt",
+        lambda context: "Prompt text"  # Ignores actual input for mocking
+    )
+
     monkeypatch.setattr(app.routes.generate, "generate_from_bedrock", lambda prompt: "Generated cover letter")
 
     with open("/tmp/test_cv.txt", "w") as f:

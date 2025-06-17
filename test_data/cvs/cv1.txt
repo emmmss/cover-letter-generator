@@ -1,0 +1,92 @@
+Helsinki, Finland
+emmi.e.kotilainen@gmail.com
+GitHub
++358451306027
+E D U C A T I O N
+Aalto University
+2016 — 2020 | MSc (Econ),
+Information and Service Management
+Aalto University
+2018 — 2024 | Data Science
+bachelor program studies
+Aalto University
+2013 — 2016 | BSc (Econ),
+International Business
+S K I L L S
+Python SQL
+Machine
+learning
+Natural language
+processing
+Docker
+MongoDB
+Pinecone
+RAG
+AWS: Lambda, S3,
+Bedrock
+Github Confluence
+Jira
+L A N G U A G E S
+English
+Finnish
+Swedish
+fluent
+native language
+good
+E M M I A I K O T I L A I N E N
+E N G I N E E R
+E X P E R I E N C E S
+Product Lead, Wolt
+April 2023 — February 2024
+Led a 7-person agile team (6 developers, one
+designer); owned roadmap, vision, and sprint
+planning
+Shipped features across Wolt’s consumer, merchant,
+and courier apps in 26 countries
+Used Looker and Snowflake for data analysis to drive
+product decisions
+Facilitated stakeholder communication and set long-
+term product direction
+Product Management Intern, Wolt
+January 2023 — March 2023
+Did product discovery for a brand-new product
+Worked closely with engineering, design and
+stakeholders to define product requirements
+AI Engineer, Lumoa
+November 2018 — December 2022
+Developing an intelligent customer experience
+platform with a focus on AI-driven features, including
+NLP and machine learning components using Python
+Designed and implemented ML/NLP solutions
+such as text classification, and topic modeling for
+user-facing applications
+Worked with MongoDB and MySQL for data storage
+and retrieval
+Collaborated in a cross-functional agile team, solved
+key issues with the development team
+Worked with customers to find ways to support their
+use cases
+Trained new employees
+V O L U N T E E R I N G
+& P O S I T I O N S O F
+T R U S T
+Campaign Operations Coordinator,
+Joona Orpana’s campaign
+November 2024 — April 2025
+Planning and coordinating campaign operations in
+Joona Orpana’s campaign during 2025 municipal
+elections.
+Manage campaign operations such as team of
+volunteers distributing flyers and doing other
+campaign activities.
+Managing inventory of campaign materials such as
+flyers.
+Founder and Chairperson,
+Data Guild ry
+February 2019 — December 2020
+Founded the Data Guild, an association for data
+science students at Aalto.
+As the first chairperson, I got people excited to join a
+new association, recruited board members and led a
+board of 10 people. I got things set up and expanded
+the association's activities.

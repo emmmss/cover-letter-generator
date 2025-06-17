@@ -9,7 +9,15 @@ def test_build_prompt_basic():
     job = "JOB DESC"
     past = "PAST LETTER"
     examples = "EXAMPLES"
-    result = prompt_builder.build_prompt(cv, job, past, examples)
+    context = {
+        "vars": {
+            "cv_text": cv,
+            "job_description": job,
+            "past_letter_text": past,
+            "example_texts": examples,
+        }
+    }
+    result = prompt_builder.build_prompt(context)
     assert "CV TEXT" in result
     assert "JOB DESC" in result
     assert "PAST LETTER" in result
@@ -19,7 +27,13 @@ def test_build_prompt_basic():
 def test_build_prompt_empty_optional():
     cv = "CV"
     job = "JOB"
-    result = prompt_builder.build_prompt(cv, job)
+    context = {
+        "vars": {
+            "cv_text": cv,
+            "job_description": job
+        }
+    }
+    result = prompt_builder.build_prompt(context)
     assert "CV" in result
     assert "JOB" in result
 

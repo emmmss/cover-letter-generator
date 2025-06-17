@@ -36,7 +36,15 @@ async def generate_cover_letter(
 
         # Step 4: Build prompt
         cv_text = extract_text(cv)
-        prompt = build_prompt(cv_text, job_description, past_letter_text)
+        context = {
+            "vars": {
+                "cv_text": cv_text,
+                "job_description": job_description,
+                "past_letter_text": past_letter_text,
+                "example_texts": example_texts,
+            }
+        }
+        prompt = build_prompt(context)
 
         # Step 5: Generate cover letter
         generated = generate_from_bedrock(prompt)
