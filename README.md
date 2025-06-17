@@ -30,6 +30,23 @@ Built with **FastAPI**, deployed on **AWS Lambda**, with vector search via **Pin
 | User Auth (TODO) | AWS Cognito                          |
 
 ---
+## 🧪 Prompt Evaluation with promptfoo
+
+This project uses [promptfoo](https://github.com/promptfoo/promptfoo) to evaluate the quality and reliability of prompt engineering for cover letter generation. The configuration is in `promptfooconfig.yaml`.
+
+- **Test Cases:** Located in `test_data/`, these provide real CVs, job descriptions, and past letters for evaluation.
+- **Prompt Evaluation:** The main prompt is built in `app/services/prompt_builder.py:build_prompt` and tested with various inputs.
+- **Providers:** Evaluations use the Bedrock Claude model.
+- **Custom Grading:** A custom Python script (`evals/custom_llm_eval_cover_letter.py`) is used for model-graded evaluation, allowing for tailored quality checks.
+- **How to Run:**
+  1. Install promptfoo: `npm install -g promptfoo`
+  2. Run: `promptfoo eval` (ensure AWS credentials are set in your environment)
+  3. Results and errors are logged in `promptfoo-errors.log`.
+
+See `promptfooconfig.yaml` for details and to add more test cases or prompt variations.
+
+---
+
 ## Usage instructions
 You can test the api [here](https://mebltwxoio5s546ogy3mjrh5yu0bqdco.lambda-url.eu-north-1.on.aws/docs). The API is deployed on AWS Lambda and can be accessed via the provided URL. There is no user authentication implemented yet, so to indicate who you are come up with your own user_id.
 
@@ -46,6 +63,7 @@ You can test the api [here](https://mebltwxoio5s546ogy3mjrh5yu0bqdco.lambda-url.
 
 🧪 Developer Features
 - Add unit and integration tests
+- Add more examples to promptfoo for better evaluation
 
 💻 Frontend
 - Simple web UI for users to upload, generate, and review letters
